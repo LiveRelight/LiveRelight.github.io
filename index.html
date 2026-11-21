@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors</title>
+<meta name="description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors">
+<meta property="og:description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23363636'/%3E%3Ccircle cx='16' cy='17' r='7' fill='%23fcd47c'/%3E%3Cpath d='M16 3v6' stroke='%23fcd47c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script>document.documentElement.className = "js";</script>
+<style>
+@font-face { font-family: "Lato"; src: url("assets/fonts/lato-regular.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Lato"; src: url("assets/fonts/lato-semibold.woff") format("woff"); font-weight: 600; font-style: normal; font-display: swap; }
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: #fff; color: #4a4a4a; font-family: "Lato", "Noto Sans", "Helvetica Neue", Arial, sans-serif; font-size: 1rem; line-height: 1.5; }
+strong { color: #363636; font-weight: 600; }
+a { color: #3273dc; text-decoration: none; }
+:focus-visible { outline: 2px solid #3273dc; outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.container { position: relative; width: auto; margin: 0 auto; }
+.container.is-max-desktop { max-width: 960px; }
+.hero { display: block; }
+.hero-body { padding: 3rem 1.5rem; }
+.section { padding: 3rem 1.5rem; }
+.is-light { background: #f5f5f5; }
+.has-text-centered { text-align: center; }
+.has-text-justified { text-align: justify; }
+.column-narrow { max-width: 768px; margin: 0 auto; }
+
+.title { margin: 0 0 1.5rem; color: #363636; font-size: 2rem; font-weight: 600; line-height: 1.125; word-break: break-word; }
+.title.is-1 { font-size: 3rem; }
+.publication-title { font-weight: 400; }
+.publication-title strong { color: inherit; font-weight: 600; }
+.title.is-3 { font-size: 2rem; }
+.title.is-4 { font-size: 1.5rem; margin-bottom: 1rem; }
+.subtitle { margin: 0; color: #4a4a4a; font-size: 1.25rem; font-weight: 400; line-height: 1.4; }
+.subtitle.is-6 { font-size: 1rem; line-height: 1.5; }
+.dnerf { font-variant: small-caps; font-weight: 600; color: inherit; }
+.content p { margin: 0 0 1em; }
+.content p:last-child { margin-bottom: 0; }
+.content ol { margin: 0 0 1em; padding-left: 1.6em; }
+.content li { margin: 0.45em 0; }
+
+.publication-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 0.25rem; }
+.button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
+  height: 2.5em; padding: calc(0.5em - 1px) 1.25em calc(0.5em - 1px) 1em;
+  border: 1px solid transparent; border-radius: 9999px;
+  background: #363636; color: #fff; font: inherit; font-size: 1rem; line-height: 1.5; cursor: pointer;
+}
+.button:hover { background: #2f2f2f; color: #fff; }
+.button.is-soon { opacity: 0.55; cursor: default; }
+.button.is-soon:hover { background: #363636; }
+.button svg { width: 1.05em; height: 1.05em; fill: currentColor; flex: none; }
+
+.teaser .hero-body { padding-top: 0; padding-bottom: 3rem; }
+.teaser .clip { width: min(100%, max(36rem, calc((100vh - 19rem) * 1.5))); margin: 0 auto 1.25rem; }
+@supports (height: 100svh) { .teaser .clip { width: min(100%, max(36rem, calc((100svh - 19rem) * 1.5))); } }
+.teaser .tagline { margin-bottom: 0.6rem; color: #363636; font-size: 1.5rem; font-weight: 600; }
+
+.clip { position: relative; aspect-ratio: 3 / 2; background: #000; }
+.clip video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.js .clip video { cursor: pointer; }
+.paused-tag {
+  position: absolute; top: 10px; right: 10px; padding: 3px 9px; border-radius: 4px;
+  background: rgba(0, 0, 0, 0.62); color: #fff; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
+  pointer-events: none; display: none;
+}
+.clip.is-paused .paused-tag { display: block; }
+
+.demo-intro { max-width: 46rem; margin: 0 auto 1.25rem; }
+.demo-intro small { display: block; margin-top: 0.35rem; font-size: 0.85rem; color: #6b6b6b; }
+.demo { position: relative; max-width: 960px; margin: 0 auto; aspect-ratio: 3 / 2; background: #000; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.demo img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 0.3s ease; }
+.demo img.on { opacity: 1; }
+.demo.instant img { transition: none; }
+.regions { position: absolute; inset: 0; width: 100%; height: 100%; }
+.region {
+  fill: rgba(255, 255, 255, 0); stroke: rgba(255, 255, 255, 0); stroke-width: 2; stroke-linejoin: round;
+  vector-effect: non-scaling-stroke; pointer-events: all; cursor: pointer; transition: stroke 0.15s ease, fill 0.15s ease;
+}
+.region.off { pointer-events: none; display: none; }
+.demo:hover .region, .demo.hint .region { stroke: rgba(255, 255, 255, 0.55); stroke-dasharray: 6 5; }
+.demo .region.hot { stroke: #fff; stroke-dasharray: none; fill: rgba(255, 255, 255, 0.07); }
+@media (hover: none) { .region { stroke: rgba(255, 255, 255, 0.5); stroke-dasharray: 6 5; } }
+.tip {
+  position: absolute; left: 0; top: 0; z-index: 2; padding: 5px 10px; border-radius: 4px;
+  background: rgba(0, 0, 0, 0.8); color: #fff; font-size: 0.9rem; font-weight: 600; white-space: nowrap;
+  pointer-events: none; display: none;
+}
+.tip.show { display: block; }
+.state-chip {
+  position: absolute; top: 12px; left: 12px; z-index: 1; padding: 4px 10px; border-radius: 6px;
+  background: rgba(30, 36, 42, 0.86); color: #fff; font-size: 0.9rem; font-weight: 600; pointer-events: none;
+}
+.demo-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 1.1rem auto 0; }
+.thumb-btn {
+  display: inline-flex; align-items: center; gap: 0.5em; height: 2.5em; padding: 0 1.1em 0 0.9em;
+  border: 1px solid #dbdbdb; border-radius: 9999px; background: #fff; color: #363636;
+  font: inherit; font-size: 1rem; cursor: pointer;
+}
+.thumb-btn:hover { border-color: #b5b5b5; }
+.thumb-btn[aria-pressed="true"] { background: #363636; border-color: #363636; color: #fff; }
+.thumb-btn svg { width: 1.1em; height: 1.1em; flex: none; }
+.swatch { width: 0.95em; height: 0.95em; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8); }
+.demo-caption { max-width: 46rem; min-height: 3em; margin: 0.9rem auto 0; color: #363636; }
+.demo-head { margin-bottom: 0.6rem; }
+.demo-head-2 { margin-top: 3.5rem; }
+#kitchen-stage .region { cursor: help; }
+html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, html:not(.js) .demo-caption { display: none; }
+.noscript { max-width: 46rem; margin: 1rem auto 0; padding: 0.75rem 1rem; background: #fffbeb; border: 1px solid #f0d58a; border-radius: 6px; color: #5c4a10; font-size: 0.95rem; }
+
+.result { margin: 0 auto 2.5rem; }
+.result:last-child { margin-bottom: 0; }
+.result .subtitle { margin-top: 0.9rem; }
+.columns { display: flex; gap: 1.5rem; justify-content: center; }
+.columns > .col { flex: 1 1 0; min-width: 0; max-width: 540px; }
+.small-note { margin-top: 1rem; font-size: 0.875rem; color: #6b6b6b; }
+
+.footer { padding: 3rem 1.5rem 4rem; background: #fafafa; font-size: 0.9rem; color: #6b6b6b; }
+.footer p { max-width: 46rem; margin: 0 auto; }
+
+@media (max-width: 768px) {
+  .title.is-1 { font-size: 2.25rem; }
+  .title.is-3 { font-size: 1.75rem; }
+  .hero-body, .section { padding: 2rem 1rem; }
+  .teaser .hero-body { padding-bottom: 2rem; }
+  .teaser .clip { width: 100%; }
+  .columns { flex-direction: column; align-items: center; }
+  .columns > .col { width: 100%; }
+}
+@media (max-width: 420px) {
+  .title.is-1 { font-size: 1.9rem; }
+  .subtitle { font-size: 1.1rem; }
+  .teaser .tagline { font-size: 1.25rem; }
+  .button { font-size: 0.9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo img, .region { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <h1 class="title is-1 publication-title"><strong>LiveRelight</strong>: Sub-Second Global Illumination Editing for Gaussian Interiors</h1>
+      <div class="publication-links">
+        <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h9.5L20 7.5V22H5zm9 1.6V8h4.4zM7.5 12.5h9v5h-9z"/></svg><span>Paper</span><span class="sr-only"> (link coming soon)</span></a>
+        <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg><span>Code</span><span class="sr-only"> (link coming soon)</span></a>
+        <a class="button" href="#abstract"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M6 2h8.5L20 7.5V22H6zm8 1.6V8h4.4zM8.5 11h9v1.6h-9zm0 3.5h9v1.6h-9zm0 3.5h6v1.6h-6z"/></svg><span>Abstract</span></a>
+        <a class="button" href="#demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.5l14.5 8.4-6.3 1.5 3.6 6.9-2.6 1.4-3.6-6.9L6 18.3z"/></svg><span>Interactive Demo</span></a>
+        <a class="button" href="#results"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M2 5h20v14H2zm8 3.5v7l6-3.5z"/></svg><span>Results</span></a>
+        <a class="button" href="#method"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3zm0 6.4h18v3.2H3zm0 6.4h18V20H3z"/></svg><span>How it Works</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser" id="teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body has-text-centered">
+      <div class="clip">
+        <video autoplay muted loop playsinline preload="auto" poster="media/living-room.jpg" aria-label="Living room: lamps switch on, the rug turns blue, the wall turns red, the pendant moves">
+          <source src="media/living-room.webm" type="video/webm">
+          <source src="media/living-room.mp4" type="video/mp4">
+        </video>
+        <span class="paused-tag">Paused</span>
+      </div>
+      <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
+      <p class="subtitle">From images captured under a single lighting condition, <span class="dnerf">LiveRelight</span> lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section hero is-light" id="abstract">
+  <div class="container is-max-desktop">
+    <div class="column-narrow has-text-centered">
+      <h2 class="title is-3">Abstract</h2>
+      <div class="content has-text-justified">
+        <p>Relighting reconstructed 3D scenes remains challenging due to the complex nature of light transport: slow or approximate visual feedback restricts the editor's ability to fine-tune the results to satisfaction. We present a hybrid relighting approach that enables interactive, high-fidelity updates of direct and indirect indoor illumination without per-edit optimization. Our approach permits the editor to make a wide range of relighting edits at room-scale, with near-instant feedback. Our key insight is to precompute geometric light exchange rather than illumination responses, retaining an inexpensive transport solve that accommodates changes in emission and surface reflectance. We evaluate direct illumination on reconstructed 2D Gaussians using visibility-aware sampling of one-sided emitters, while propagating diffuse interreflection through sparse radiosity on a triangle proxy. A sparse projection fitted through Gaussian alpha compositing transfers the proxy solution to the reconstruction. Our formulation further supports fast fixture transformations and emitter insertion by recomputing light source injection. Across eight relighting conditions of our synthetic test suite, our sub-second edits improve relighting fidelity over prior path-traced editing by an average of 5&nbsp;dB PSNR, while reducing editing latency by up to three orders of magnitude. Qualitative results further demonstrate realistic, interactive relighting of real-world captures.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="demo">
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title is-3">Try it yourself!</h2>
+    <h3 class="title is-4 demo-head">Living room: recolour surfaces, move the pendant</h3>
+    <p class="demo-intro">Click the <strong>rug</strong> or the <strong>wall</strong> to change its albedo, and click the <strong>pendant lamp</strong> to move it. Click again to undo. Watch how the light reflected around the room changes.
+      <small>(The demo shows renders of this novel view for every combination of the three edits, computed with <span class="dnerf">LiveRelight</span> ahead of time; it does not relight in the browser.)</small></p>
+    <div class="demo" id="demo-stage">
+      <img class="on" data-state="000" src="media/demo-000.jpg" width="1080" height="720" alt="Living room under the new lamps: rug, wall and pendant as captured">
+      <img data-state="100" src="media/demo-100.jpg" width="1080" height="720" alt="Rug recoloured blue">
+      <img data-state="010" src="media/demo-010.jpg" width="1080" height="720" alt="Wall recoloured red">
+      <img data-state="110" src="media/demo-110.jpg" width="1080" height="720" alt="Rug blue and wall red">
+      <img data-state="001" src="media/demo-001.jpg" width="1080" height="720" alt="Pendant moved beside the bookshelf">
+      <img data-state="101" src="media/demo-101.jpg" width="1080" height="720" alt="Rug blue, pendant moved">
+      <img data-state="011" src="media/demo-011.jpg" width="1080" height="720" alt="Wall red, pendant moved">
+      <img data-state="111" src="media/demo-111.jpg" width="1080" height="720" alt="Rug blue, wall red, pendant moved">
+      <svg class="regions" viewBox="0 0 1080 720" preserveAspectRatio="none" aria-hidden="true">
+        <path class="region" data-target="rug" d="M42 718 L990 719 L991 661 L939 626 L854 580 L783 549 L706 523 L632 505 L567 495 L486 490 L444 492 L371 501 L311 515 L265 531 L212 556 L165 584 L112 627 L101 641 L76 664 L58 689 Z"/>
+        <path class="region" data-target="wall" d="M0 108 L0 519 L231 469 L232 466 L238 463 L248 448 L248 442 L276 435 L272 364 L273 339 L379 333 L378 325 L382 320 L411 320 L416 332 L440 331 L446 329 L444 316 L447 308 L452 303 L455 303 L463 313 L462 328 L477 328 L475 201 L472 199 Z"/>
+        <path class="region" data-target="pendant" data-where="home" d="M437 0 L439 44 L420 47 L401 56 L391 66 L388 72 L387 89 L396 101 L411 109 L423 113 L466 116 L484 112 L493 107 L499 101 L499 97 L501 95 L500 80 L495 70 L483 58 L468 50 L450 45 L450 0 Z"/>
+        <path class="region off" data-target="pendant" data-where="moved" d="M952 0 L940 0 L939 6 L932 9 L930 23 L927 28 L929 32 L936 35 L931 92 L918 96 L896 108 L883 121 L879 133 L880 138 L886 143 L909 146 L948 142 L985 130 L993 122 L995 111 L991 102 L985 97 L970 91 L943 90 L947 34 L949 30 L954 29 L958 24 L958 10 L951 3 Z"/>
+      </svg>
+      <span class="state-chip">Lamps on</span>
+      <span class="tip" aria-hidden="true"></span>
+    </div>
+    <div class="demo-buttons" id="lr-buttons" role="group" aria-label="Edits">
+      <button type="button" class="thumb-btn" data-target="rug" aria-pressed="false"><span class="swatch" style="background:#2f4fd0"></span>Rug &rarr; blue</button>
+      <button type="button" class="thumb-btn" data-target="wall" aria-pressed="false"><span class="swatch" style="background:#d1271f"></span>Wall &rarr; red</button>
+      <button type="button" class="thumb-btn" data-target="pendant" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.2 1h1.6v6h-1.6z" fill="currentColor"/><path d="M4 15a8 7 0 0 1 16 0z" fill="currentColor"/><ellipse cx="12" cy="16.4" rx="6" ry="1.6" fill="#fcd47c"/></svg>Move pendant</button>
+      <button type="button" class="thumb-btn" data-target="reset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 1 1-7.6 5.5l2 .7A5.9 5.9 0 1 0 12 6.1V9L7.5 5 12 1z" fill="currentColor"/></svg>Original</button>
+    </div>
+    <p class="demo-caption" id="lr-caption" aria-live="polite">Under the new lamps. Click the rug, the wall or the pendant lamp.</p>
+    <noscript><p class="noscript">The interactive demo and click-to-pause need JavaScript. Open this page in a web browser (an editor or notebook preview may block scripts).</p></noscript>
+
+    <h3 class="title is-4 demo-head demo-head-2">Kitchen: switch the lighting</h3>
+    <p class="demo-intro">Switch between the lighting the kitchen was captured under and three relighting conditions. Hover over a lamp to see whether it is on.
+      <small>(A novel view that does not appear in the kitchen video; one <span class="dnerf">LiveRelight</span> render per lighting condition.)</small></p>
+    <div class="demo" id="kitchen-stage">
+      <img class="on" data-state="0" src="media/kitchen-light-0.jpg" width="1080" height="720" alt="Kitchen under the capture lighting">
+      <img data-state="1" src="media/kitchen-light-1.jpg" width="1080" height="720" alt="Kitchen under relighting condition 1">
+      <img data-state="2" src="media/kitchen-light-2.jpg" width="1080" height="720" alt="Kitchen under relighting condition 2">
+      <img data-state="3" src="media/kitchen-light-3.jpg" width="1080" height="720" alt="Kitchen under relighting condition 3">
+      <svg class="regions" viewBox="0 0 1080 720" preserveAspectRatio="none" aria-hidden="true">
+        <path class="region" data-fixture="pendant" d="M359 356 L353 360 L350 384 L341 390 L341 394 L348 399 L344 442 L314 445 L309 451 L309 462 L312 465 L337 470 L375 470 L386 467 L390 463 L390 452 L386 448 L359 442 L363 404 L371 397 L371 392 L365 387 L366 368 L365 360 Z"/>
+        <path class="region" data-fixture="panel" d="M745 398 L748 431 L756 438 L1079 426 L1079 375 L785 390 L782 375 L775 369 L768 374 L767 390 L751 391 Z"/>
+        <path class="region" data-fixture="strips" d="M696 564 L696 570 L707 576 L1029 580 L1034 577 L1075 577 L1079 575 L1078 566 L1065 564 L890 563 L705 559 Z"/>
+        <path class="region" data-fixture="disk_a" d="M0 38 L1 155 L56 184 L122 205 L161 210 L194 209 L214 202 L227 192 L231 183 L232 165 L230 153 L227 150 L223 150 L213 137 L213 127 L205 109 L192 96 L177 90 L173 82 L163 81 L142 84 L113 69 L85 60 L86 53 L80 49 L63 50 L30 40 Z"/>
+        <path class="region" data-fixture="disk_k" d="M715 351 L726 361 L737 366 L746 368 L781 368 L804 365 L834 355 L846 343 L846 335 L839 327 L829 322 L773 322 L745 332 L728 343 L718 344 L715 347 Z"/>
+        <path class="region" data-fixture="disk_b" d="M838 32 L838 40 L845 62 L858 81 L881 93 L913 99 L931 99 L967 93 L1015 78 L1057 60 L1079 48 L1079 0 L849 0 L845 7 L842 27 Z"/>
+      </svg>
+      <span class="state-chip">Capture lighting</span>
+      <span class="tip" aria-hidden="true"></span>
+    </div>
+    <div class="demo-buttons" id="kitchen-buttons" role="group" aria-label="Lighting">
+      <button type="button" class="thumb-btn" data-state="0" aria-pressed="true">Capture lighting</button>
+      <button type="button" class="thumb-btn" data-state="1" aria-pressed="false">Relit 1</button>
+      <button type="button" class="thumb-btn" data-state="2" aria-pressed="false">Relit 2</button>
+      <button type="button" class="thumb-btn" data-state="3" aria-pressed="false">Relit 3</button>
+    </div>
+    <p class="demo-caption" id="kitchen-caption" aria-live="polite">The lighting the kitchen was captured under: the ceiling lights, the pendant and the under-cupboard lights on, and daylight through the window behind the camera.</p>
+  </div>
+</section>
+
+<section class="section hero is-light" id="results">
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title is-3">More Results</h2>
+    <div class="result" id="kitchen">
+      <div class="clip">
+        <video autoplay muted loop playsinline preload="auto" poster="media/kitchen.jpg" aria-label="Kitchen: three relighting conditions, red wall, moved pendant, then the edits undone">
+          <source src="media/kitchen.webm" type="video/webm">
+          <source src="media/kitchen.mp4" type="video/mp4">
+        </video>
+        <span class="paused-tag">Paused</span>
+      </div>
+      <h3 class="subtitle is-6"><strong>Kitchen</strong> (synthetic). Three relighting conditions, then the back wall turns red and the pendant moves. After a turn towards the counters, the edits are undone one by one and the room returns to its capture lighting.</h3>
+    </div>
+    <div class="result">
+      <h3 class="title is-4">Real Captures</h3>
+      <div class="columns">
+        <div class="col">
+          <div class="clip">
+            <video autoplay muted loop playsinline preload="auto" poster="media/classroom.jpg" width="540" height="360" aria-label="Classroom: inserted pendant light, ceiling lamps dimmed, desk lamp and board lights on">
+              <source src="media/classroom.webm" type="video/webm">
+              <source src="media/classroom.mp4" type="video/mp4">
+            </video>
+            <span class="paused-tag">Paused</span>
+          </div>
+          <p class="subtitle is-6"><strong>Classroom.</strong> A pendant light is inserted; the ceiling lamps turn reddish and dim until the pendant is the only light. Then the desk lamp and the board lights come on, and the room returns to its capture lighting.</p>
+        </div>
+        <div class="col">
+          <div class="clip">
+            <video autoplay muted loop playsinline preload="auto" poster="media/conference.jpg" width="540" height="360" aria-label="Conference room: green wall, inserted panel light, recoloured ceiling lamps">
+              <source src="media/conference.webm" type="video/webm">
+              <source src="media/conference.mp4" type="video/mp4">
+            </video>
+            <span class="paused-tag">Paused</span>
+          </div>
+          <p class="subtitle is-6"><strong>Conference room.</strong> The wall turns green and an inserted panel light fades up while the ceiling lamps dim. Back under the capture lighting, the ceiling lamps turn red, then one row blue and the other green.</p>
+        </div>
+      </div>
+      <p class="small-note">Real captures are shown at 540&times;360. Click any video to pause it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="method">
+  <div class="container is-max-desktop">
+    <div class="column-narrow">
+      <h2 class="title is-3 has-text-centered">How it works</h2>
+      <div class="content has-text-justified">
+        <p><span class="dnerf">LiveRelight</span> starts from a 2D Gaussian reconstruction of a room captured under a single lighting condition, with one-sided emitters for the light fixtures, and changes only the light transport on top of it.</p>
+        <ol>
+          <li><strong>Once per scene.</strong> Extract a triangle proxy mesh, precompute its form factors, and fit a sparse projection from the mesh onto the Gaussians.</li>
+          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture moves, <span class="dnerf">LiveRelight</span> recomputes where its light first lands and reuses the room&rsquo;s precomputed form factors for subsequent bounces.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer has-text-centered">
+  <p>All images and videos on this page are novel views rendered by <span class="dnerf">LiveRelight</span> on top of existing 2D Gaussian reconstructions. In the videos, changes of lighting and colour are cross-faded for viewing; fixture moves are rendered frame by frame. For interactive editing, check out our code and web app.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
+
+  each(document.querySelectorAll(".clip"), function (clip) {
+    var v = clip.querySelector("video");
+    v.muted = true;
+    var sync = function () { clip.classList.toggle("is-paused", v.paused && v.currentTime > 0); };
+    v.addEventListener("click", function () {
+      if (v.paused) { var p = v.play(); if (p && p.catch) { p.catch(function () {}); } } else { v.pause(); }
+    });
+    v.addEventListener("pause", sync);
+    v.addEventListener("play", sync);
+    if (v.paused && v.autoplay) {
+      var p = v.play();
+      if (p && p.catch) { p.catch(function () {}); }
+    }
+  });
+
+  var stage = document.getElementById("demo-stage");
+  if (!stage) { return; }
+  var imgs = {};
+  each(stage.querySelectorAll("img"), function (im) { imgs[im.getAttribute("data-state")] = im; });
+  var tip = stage.querySelector(".tip");
+  var chip = stage.querySelector(".state-chip");
+  var caption = document.getElementById("lr-caption");
+  var buttons = document.querySelectorAll("#lr-buttons .thumb-btn");
+  var regions = stage.querySelectorAll(".region");
+  var on = { rug: false, wall: false, pendant: false };
+  var hot = null;
+  var TEXT = {
+    rug: ["Rug → blue: watch the ceiling turn blue with the light the rug reflects.",
+          "Rug back to its captured colour: the ceiling loses its blue tint."],
+    wall: ["Wall → red: the wall is dimly lit, so its reflected light is faint; only the corner of the back wall and the ceiling next to it turn slightly redder.",
+           "Wall back to its captured colour."],
+    pendant: ["Pendant moved beside the bookshelf: the shelves and the wall next to them brighten, while the rug and the sideboard darken.",
+              "Pendant back above the rug."]
+  };
+  var TIP = {
+    rug: ["Click for albedo edit: rug → blue", "Click to undo the albedo edit"],
+    wall: ["Click for albedo edit: wall → red", "Click to undo the albedo edit"],
+    pendant: ["Click to move the pendant", "Click to move the pendant back"]
+  };
+
+  function key() { return (on.rug ? "1" : "0") + (on.wall ? "1" : "0") + (on.pendant ? "1" : "0"); }
+  function render(instant) {
+    if (instant) { stage.classList.add("instant"); }
+    var k = key();
+    Object.keys(imgs).forEach(function (s) { imgs[s].classList.toggle("on", s === k); });
+    if (instant) { void stage.offsetWidth; stage.classList.remove("instant"); }
+    var parts = ["Lamps on"];
+    if (on.rug) { parts.push("rug blue"); }
+    if (on.wall) { parts.push("wall red"); }
+    if (on.pendant) { parts.push("pendant moved"); }
+    chip.textContent = parts.join(" · ");
+    each(regions, function (r) {
+      var w = r.getAttribute("data-where");
+      if (w) { r.classList.toggle("off", (w === "moved") !== on.pendant); }
+      r.classList.toggle("hot", hot === r && !r.classList.contains("off"));
+    });
+    each(buttons, function (b) {
+      var t = b.getAttribute("data-target");
+      if (t !== "reset") { b.setAttribute("aria-pressed", on[t] ? "true" : "false"); }
+    });
+  }
+  function toggle(t) {
+    if (t === "reset") {
+      var moved = on.pendant;
+      on.rug = on.wall = on.pendant = false;
+      caption.textContent = "Back to the lamps-on render: rug, wall and pendant as captured.";
+      render(moved);
+    } else {
+      on[t] = !on[t];
+      caption.textContent = TEXT[t][on[t] ? 0 : 1];
+      render(t === "pendant");
+    }
+  }
+  function showTip(r, e) {
+    var t = r.getAttribute("data-target");
+    tip.textContent = TIP[t][on[t] ? 1 : 0];
+    tip.classList.add("show");
+    var b = stage.getBoundingClientRect();
+    var x = e.clientX - b.left + 14, y = e.clientY - b.top + 16;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    if (x + w > b.width - 4) { x = e.clientX - b.left - w - 12; }
+    if (y + h > b.height - 4) { y = e.clientY - b.top - h - 12; }
+    tip.style.transform = "translate(" + Math.max(4, x) + "px," + Math.max(4, y) + "px)";
+  }
+  each(regions, function (r) {
+    r.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") { return; }
+      if (hot !== r) { hot = r; render(false); }
+      showTip(r, e);
+    });
+    r.addEventListener("pointerleave", function () {
+      if (hot === r) { hot = null; render(false); }
+      tip.classList.remove("show");
+    });
+    r.addEventListener("click", function (e) {
+      toggle(r.getAttribute("data-target"));
+      if (e.pointerType !== "touch" && e.clientX) {
+        var now = document.elementFromPoint(e.clientX, e.clientY);
+        if (now && now.classList && now.classList.contains("region")) { hot = now; render(false); showTip(now, e); }
+        else { hot = null; tip.classList.remove("show"); render(false); }
+      }
+    });
+  });
+  each(buttons, function (b) { b.addEventListener("click", function () { toggle(b.getAttribute("data-target")); }); });
+
+  if ("IntersectionObserver" in window) {
+    var shown = false;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!shown && en.isIntersecting && en.intersectionRatio >= 0.6) {
+          shown = true;
+          stage.classList.add("hint");
+          setTimeout(function () { stage.classList.remove("hint"); }, 2500);
+          io.disconnect();
+        }
+      });
+    }, { threshold: [0, 0.6] });
+    io.observe(stage);
+  }
+  render(false);
+})();
+
+(function () {
+  "use strict";
+  var stage = document.getElementById("kitchen-stage");
+  if (!stage) { return; }
+  var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
+  var imgs = stage.querySelectorAll("img");
+  var tip = stage.querySelector(".tip");
+  var chip = stage.querySelector(".state-chip");
+  var caption = document.getElementById("kitchen-caption");
+  var buttons = document.querySelectorAll("#kitchen-buttons .thumb-btn");
+  var NAME = ["Capture lighting", "Relit 1", "Relit 2", "Relit 3"];
+  var CAPTION = [
+    "The lighting the kitchen was captured under: the ceiling lights, the pendant and the under-cupboard lights on, and daylight through the window behind the camera.",
+    "Relit 1: the ceiling lights and the window go dark; the pendant turns warm, the panel over the counter comes on, the under-cupboard lights glow warm, and a green wall light behind the camera tints the room.",
+    "Relit 2: the pendant and the counter panel switch off; the kitchen ceiling light is turned up, the other ceiling lights turn amber, the under-cupboard lights are dimmed, and a purple wall light behind the camera tints the room.",
+    "Relit 3: a white pendant, dimmed ceiling lights, the under-cupboard lights off, and amber light through the window behind the camera."
+  ];
+  var FIX = {
+    pendant: ["Pendant lamp", ["on", "on, warm", "off", "on, white"]],
+    panel: ["Light panel over the counter", ["dim", "on", "off", "off"]],
+    strips: ["Under-cupboard lights", ["on", "on, warm", "dimmed, warm", "off"]],
+    disk_a: ["Ceiling light", ["on", "off", "on, amber", "dimmed"]],
+    disk_k: ["Kitchen ceiling light", ["on", "off", "on, bright", "dimmed"]],
+    disk_b: ["Ceiling light", ["on", "off", "on, amber", "dimmed"]]
+  };
+  var cur = 0, hot = null;
+  function render() {
+    each(imgs, function (im) { im.classList.toggle("on", +im.getAttribute("data-state") === cur); });
+    each(buttons, function (b) { b.setAttribute("aria-pressed", +b.getAttribute("data-state") === cur ? "true" : "false"); });
+    chip.textContent = NAME[cur];
+    caption.textContent = CAPTION[cur];
+  }
+  function showTip(r, e) {
+    var f = FIX[r.getAttribute("data-fixture")];
+    tip.textContent = f[0] + ": " + f[1][cur];
+    tip.classList.add("show");
+    var b = stage.getBoundingClientRect();
+    var x = e.clientX - b.left + 14, y = e.clientY - b.top + 16;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    if (x + w > b.width - 4) { x = e.clientX - b.left - w - 12; }
+    if (y + h > b.height - 4) { y = e.clientY - b.top - h - 12; }
+    tip.style.transform = "translate(" + Math.max(4, x) + "px," + Math.max(4, y) + "px)";
+  }
+  each(stage.querySelectorAll(".region"), function (r) {
+    r.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") { return; }
+      if (hot !== r) { if (hot) { hot.classList.remove("hot"); } hot = r; r.classList.add("hot"); }
+      showTip(r, e);
+    });
+    r.addEventListener("pointerleave", function () {
+      r.classList.remove("hot");
+      if (hot === r) { hot = null; }
+      tip.classList.remove("show");
+    });
+    r.addEventListener("click", function (e) { showTip(r, e); });
+  });
+  each(buttons, function (b) {
+    b.addEventListener("click", function () { cur = +b.getAttribute("data-state"); render(); });
+  });
+  render();
+})();
+</script>
+</body>
+</html>
