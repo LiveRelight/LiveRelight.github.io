@@ -15,6 +15,7 @@
 <style>
 @font-face { font-family: "Lato"; src: url("assets/fonts/lato-regular.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "Lato"; src: url("assets/fonts/lato-semibold.woff") format("woff"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Roboto"; src: url("assets/fonts/roboto-bold.woff") format("woff"); font-weight: 700; font-style: normal; font-display: swap; }
 *, *::before, *::after { box-sizing: border-box; }
 html { font-size: 16px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { margin: 0; background: #fff; color: #4a4a4a; font-family: "Lato", "Noto Sans", "Helvetica Neue", Arial, sans-serif; font-size: 1rem; line-height: 1.5; }
@@ -36,12 +37,13 @@ a { color: #3273dc; text-decoration: none; }
 .title { margin: 0 0 1.5rem; color: #363636; font-size: 2rem; font-weight: 600; line-height: 1.125; word-break: break-word; }
 .title.is-1 { font-size: 3rem; }
 .publication-title { font-weight: 400; }
-.publication-title strong { color: inherit; font-weight: 600; }
+.publication-title strong { color: inherit; font-family: "Roboto", "Lato", sans-serif; font-weight: 700; }
 .title.is-3 { font-size: 2rem; }
 .title.is-4 { font-size: 1.5rem; margin-bottom: 1rem; }
 .subtitle { margin: 0; color: #4a4a4a; font-size: 1.25rem; font-weight: 400; line-height: 1.4; }
 .subtitle.is-6 { font-size: 1rem; line-height: 1.5; }
-.dnerf { font-variant: small-caps; font-weight: 600; color: inherit; }
+.dnerf { font-weight: 400; color: inherit; }
+.dnerf > span { text-transform: uppercase; font-size: 0.78em; font-weight: 600; }
 .content p { margin: 0 0 1em; }
 .content p:last-child { margin-bottom: 0; }
 .content ol { margin: 0 0 1em; padding-left: 1.6em; }
@@ -75,7 +77,6 @@ a { color: #3273dc; text-decoration: none; }
 .clip.is-paused .paused-tag { display: block; }
 
 .demo-intro { max-width: 46rem; margin: 0 auto 1.25rem; }
-.demo-intro small { display: block; margin-top: 0.35rem; font-size: 0.85rem; color: #6b6b6b; }
 .demo { position: relative; max-width: 960px; margin: 0 auto; aspect-ratio: 3 / 2; background: #000; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
 .demo img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 0.3s ease; }
 .demo img.on { opacity: 1; }
@@ -157,7 +158,6 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg><span>Code</span><span class="sr-only"> (link coming soon)</span></a>
         <a class="button" href="#abstract"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M6 2h8.5L20 7.5V22H6zm8 1.6V8h4.4zM8.5 11h9v1.6h-9zm0 3.5h9v1.6h-9zm0 3.5h6v1.6h-6z"/></svg><span>Abstract</span></a>
         <a class="button" href="#demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.5l14.5 8.4-6.3 1.5 3.6 6.9-2.6 1.4-3.6-6.9L6 18.3z"/></svg><span>Interactive Demo</span></a>
-        <a class="button" href="#results"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M2 5h20v14H2zm8 3.5v7l6-3.5z"/></svg><span>Results</span></a>
         <a class="button" href="#method"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3zm0 6.4h18v3.2H3zm0 6.4h18V20H3z"/></svg><span>How it Works</span></a>
       </div>
     </div>
@@ -175,7 +175,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <span class="paused-tag">Paused</span>
       </div>
       <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
-      <p class="subtitle">From images captured under a single lighting condition, <span class="dnerf">LiveRelight</span> lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.</p>
+      <p class="subtitle">From images captured under a single lighting condition, <span class="dnerf">L<span>ive</span>R<span>elight</span></span> lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.</p>
     </div>
   </div>
 </section>
@@ -195,8 +195,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
   <div class="container is-max-desktop has-text-centered">
     <h2 class="title is-3">Try it yourself!</h2>
     <h3 class="title is-4 demo-head">Living room: recolour surfaces, move the pendant</h3>
-    <p class="demo-intro">Click the <strong>rug</strong> or the <strong>wall</strong> to change its albedo, and click the <strong>pendant lamp</strong> to move it. Click again to undo. Watch how the light reflected around the room changes.
-      <small>(The demo shows renders of this novel view for every combination of the three edits, computed with <span class="dnerf">LiveRelight</span> ahead of time; it does not relight in the browser.)</small></p>
+    <p class="demo-intro">Click the <strong>rug</strong> or the <strong>wall</strong> to change its albedo, and click the <strong>pendant lamp</strong> to move it. Click again to undo. Watch how the light reflected around the room changes.</p>
     <div class="demo" id="demo-stage">
       <img class="on" data-state="000" src="media/demo-000.jpg" width="1080" height="720" alt="Living room under the new lamps: rug, wall and pendant as captured">
       <img data-state="100" src="media/demo-100.jpg" width="1080" height="720" alt="Rug recoloured blue">
@@ -225,8 +224,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
     <noscript><p class="noscript">The interactive demo and click-to-pause need JavaScript. Open this page in a web browser (an editor or notebook preview may block scripts).</p></noscript>
 
     <h3 class="title is-4 demo-head demo-head-2">Kitchen: switch the lighting</h3>
-    <p class="demo-intro">Switch between the lighting the kitchen was captured under and three relighting conditions. Hover over a lamp to see whether it is on.
-      <small>(A novel view that does not appear in the kitchen video; one <span class="dnerf">LiveRelight</span> render per lighting condition.)</small></p>
+    <p class="demo-intro">Switch between the lighting the kitchen was captured under and three relighting conditions. Hover over a lamp to see whether it is on.</p>
     <div class="demo" id="kitchen-stage">
       <img class="on" data-state="0" src="media/kitchen-light-0.jpg" width="1080" height="720" alt="Kitchen under the capture lighting">
       <img data-state="1" src="media/kitchen-light-1.jpg" width="1080" height="720" alt="Kitchen under relighting condition 1">
@@ -290,7 +288,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
           <p class="subtitle is-6"><strong>Conference room.</strong> The wall turns green and an inserted panel light fades up while the ceiling lamps dim. Back under the capture lighting, the ceiling lamps turn red, then one row blue and the other green.</p>
         </div>
       </div>
-      <p class="small-note">Real captures are shown at 540&times;360. Click any video to pause it.</p>
+      <p class="small-note">Click any video to pause it.</p>
     </div>
   </div>
 </section>
@@ -300,10 +298,10 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
     <div class="column-narrow">
       <h2 class="title is-3 has-text-centered">How it works</h2>
       <div class="content has-text-justified">
-        <p><span class="dnerf">LiveRelight</span> starts from a 2D Gaussian reconstruction of a room captured under a single lighting condition, with one-sided emitters for the light fixtures, and changes only the light transport on top of it.</p>
+        <p><span class="dnerf">L<span>ive</span>R<span>elight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change only the light transport on top of it.</p>
         <ol>
           <li><strong>Once per scene.</strong> Extract a triangle proxy mesh, precompute its form factors, and fit a sparse projection from the mesh onto the Gaussians.</li>
-          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture moves, <span class="dnerf">LiveRelight</span> recomputes where its light first lands and reuses the room&rsquo;s precomputed form factors for subsequent bounces.</li>
+          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture moves, <span class="dnerf">L<span>ive</span>R<span>elight</span></span> recomputes where its light first lands and reuses the room&rsquo;s precomputed form factors for subsequent bounces.</li>
         </ol>
       </div>
     </div>
@@ -311,7 +309,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 </section>
 
 <footer class="footer has-text-centered">
-  <p>All images and videos on this page are novel views rendered by <span class="dnerf">LiveRelight</span> on top of existing 2D Gaussian reconstructions. In the videos, changes of lighting and colour are cross-faded for viewing; fixture moves are rendered frame by frame. For interactive editing, check out our code and web app.</p>
+  <p>All images and videos on this page are novel views rendered by <span class="dnerf">L<span>ive</span>R<span>elight</span></span> on top of existing 2D Gaussian reconstructions. In the videos, changes of lighting and colour are cross-faded for viewing. For interactive editing, check out our code and web app.</p>
 </footer>
 
 <script>
