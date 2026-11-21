@@ -270,10 +270,10 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
     <div class="column-narrow">
       <h2 class="title is-3 has-text-centered">How it works</h2>
       <div class="content has-text-justified">
-        <p><span class="dnerf">L<span>ive</span>R<span>elight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change only the light transport on top of it.</p>
+        <p><span class="dnerf">L<span>ive</span>R<span>elight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change the light transport on top of it.</p>
         <ol>
           <li><strong>Once per scene.</strong> Extract a triangle proxy mesh, precompute its form factors, and fit a sparse projection from the mesh onto the Gaussians.</li>
-          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture moves, <span class="dnerf">L<span>ive</span>R<span>elight</span></span> recomputes where its light first lands and reuses the room&rsquo;s precomputed form factors for subsequent bounces.</li>
+          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation and tracing shadow rays through the Gaussian scene. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture is moved or inserted, fast emitter re-injection recomputes where its light first lands, and <span class="dnerf">L<span>ive</span>R<span>elight</span></span> reuses the room&rsquo;s precomputed form factors for subsequent bounces.</li>
         </ol>
       </div>
     </div>
