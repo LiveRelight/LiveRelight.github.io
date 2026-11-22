@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors</title>
-<meta name="description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
+<meta name="description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or edit light fixtures. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors">
-<meta property="og:description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
+<meta property="og:description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or edit light fixtures. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23363636'/%3E%3Ccircle cx='16' cy='17' r='7' fill='%23fcd47c'/%3E%3Cpath d='M16 3v6' stroke='%23fcd47c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -121,6 +121,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 .columns { display: flex; gap: 1.5rem; justify-content: center; }
 .columns > .col { flex: 1 1 0; min-width: 0; max-width: 540px; }
 .small-note { margin-top: 1rem; font-size: 0.875rem; color: #6b6b6b; }
+.bibtex { margin: 0; padding: 1.25em 1.5em; overflow-x: auto; background: #fff; border: 1px solid #e3e3e3; border-radius: 6px; color: #4a4a4a; font-family: ui-monospace, "SFMono-Regular", "DejaVu Sans Mono", Menlo, Consolas, "Liberation Mono", monospace; font-size: 0.875rem; line-height: 1.5; text-align: left; white-space: pre; }
 
 .footer { padding: 3rem 1.5rem 4rem; background: #fafafa; font-size: 0.9rem; color: #6b6b6b; }
 .footer p { max-width: 46rem; margin: 0 auto; }
@@ -155,8 +156,8 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h9.5L20 7.5V22H5zm9 1.6V8h4.4zM7.5 12.5h9v5h-9z"/></svg><span>Paper</span><span class="sr-only"> (link coming soon)</span></a>
         <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg><span>Code</span><span class="sr-only"> (link coming soon)</span></a>
         <a class="button" href="#abstract"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M6 2h8.5L20 7.5V22H6zm8 1.6V8h4.4zM8.5 11h9v1.6h-9zm0 3.5h9v1.6h-9zm0 3.5h6v1.6h-6z"/></svg><span>Abstract</span></a>
-        <a class="button" href="#demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 2.5l14.5 8.4-6.3 1.5 3.6 6.9-2.6 1.4-3.6-6.9L6 18.3z"/></svg><span>Interactive Demo</span></a>
         <a class="button" href="#method"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3zm0 6.4h18v3.2H3zm0 6.4h18V20H3z"/></svg><span>How it Works</span></a>
+        <a class="button" href="#citation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg><span>BibTeX</span></a>
       </div>
     </div>
   </div>
@@ -173,7 +174,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <span class="paused-tag">Paused</span>
       </div>
       <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
-      <p class="subtitle">From images captured under a single lighting condition, <span class="dnerf">L<span>ive</span>R<span>elight</span></span> lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or move a light fixture. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.</p>
+      <p class="subtitle">From images captured under a single lighting condition, <span class="dnerf">L<span>ive</span>R<span>elight</span></span> lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or edit light fixtures. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.</p>
     </div>
   </div>
 </section>
@@ -273,15 +274,24 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <p><span class="dnerf">L<span>ive</span>R<span>elight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change the light transport on top of it.</p>
         <ol>
           <li><strong>Once per scene.</strong> Extract a triangle proxy mesh, precompute its form factors, and fit a sparse projection from the mesh onto the Gaussians.</li>
-          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation and tracing shadow rays through the Gaussian scene. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture is moved or inserted, fast emitter re-injection recomputes where its light first lands, and <span class="dnerf">L<span>ive</span>R<span>elight</span></span> reuses the room&rsquo;s precomputed form factors for subsequent bounces.</li>
+          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation and tracing shadow rays through the Gaussian scene. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture is moved or inserted, fast emitter re-injection recomputes where its light first lands and then feeds that into the sparse interreflection solve for instant global illumination updates.</li>
         </ol>
       </div>
     </div>
   </div>
 </section>
 
+<section class="section hero is-light" id="citation">
+  <div class="container is-max-desktop">
+    <div class="column-narrow">
+      <h2 class="title is-3 has-text-centered">Citation</h2>
+      <pre class="bibtex"><code>BibTeX coming soon.</code></pre>
+    </div>
+  </div>
+</section>
+
 <footer class="footer has-text-centered">
-  <p>All images and videos on this page are novel views rendered by <span class="dnerf">L<span>ive</span>R<span>elight</span></span> on top of existing 2D Gaussian reconstructions. In the videos, changes of lighting and colour are cross-faded for viewing. For interactive editing, check out our code and web app.</p>
+  <p>All images and videos on this page are novel views rendered by <span class="dnerf">L<span>ive</span>R<span>elight</span></span> on top of existing 2D Gaussian reconstructions. For interactive editing, check out our code and web app.</p>
 </footer>
 
 <script>
