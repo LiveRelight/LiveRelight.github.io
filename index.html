@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors</title>
-<meta name="description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or edit light fixtures. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
+<meta name="description" content="Relight a reconstructed room in under a second. LiveRelight lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors">
-<meta property="og:description" content="Relight a reconstructed room in under a second. From images captured under a single lighting condition, LiveRelight lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or edit light fixtures. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.">
+<meta property="og:description" content="Relight a reconstructed room in under a second. LiveRelight lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23363636'/%3E%3Ccircle cx='16' cy='17' r='7' fill='%23fcd47c'/%3E%3Cpath d='M16 3v6' stroke='%23fcd47c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
@@ -111,7 +111,6 @@ a { color: #3273dc; text-decoration: none; }
 .thumb-btn svg { width: 1.1em; height: 1.1em; flex: none; }
 .swatch { width: 0.95em; height: 0.95em; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8); }
 .demo-caption { max-width: 46rem; min-height: 3em; margin: 0.9rem auto 0; color: #363636; }
-.demo-head { margin-bottom: 0.6rem; }
 html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, html:not(.js) .demo-caption { display: none; }
 .noscript { max-width: 46rem; margin: 1rem auto 0; padding: 0.75rem 1rem; background: #fffbeb; border: 1px solid #f0d58a; border-radius: 6px; color: #5c4a10; font-size: 0.95rem; }
 
@@ -174,7 +173,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <span class="paused-tag">Paused</span>
       </div>
       <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
-      <p class="subtitle">From images captured under a single lighting condition, <span class="dnerf">L<span>ive</span>R<span>elight</span></span> lets you switch on previously unlit lamps, adjust their color or intensity, change surface albedo, or edit light fixtures. Each edit updates both direct light and diffuse interreflections, with no per-edit optimization.</p>
+      <p class="subtitle"><span class="dnerf">L<span>ive</span>R<span>elight</span></span> lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.</p>
     </div>
   </div>
 </section>
@@ -184,7 +183,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
     <div class="column-narrow has-text-centered">
       <h2 class="title is-3">Abstract</h2>
       <div class="content has-text-justified">
-        <p>Relighting reconstructed 3D scenes remains challenging due to the complex nature of light transport: slow or approximate visual feedback restricts the editor's ability to fine-tune the results to satisfaction. We present a hybrid relighting approach that enables interactive, high-fidelity updates of direct and indirect indoor illumination without per-edit optimization. Our approach permits the editor to make a wide range of relighting edits at room-scale, with near-instant feedback. Our key insight is to precompute geometric light exchange rather than illumination responses, retaining an inexpensive transport solve that accommodates changes in emission and surface reflectance. We evaluate direct illumination on reconstructed 2D Gaussians using visibility-aware sampling of one-sided emitters, while propagating diffuse interreflection through sparse radiosity on a triangle proxy. A sparse projection fitted through Gaussian alpha compositing transfers the proxy solution to the reconstruction. Our formulation further supports fast fixture transformations and emitter insertion by recomputing light source injection. Across eight relighting conditions of our synthetic test suite, our sub-second edits improve relighting fidelity over prior path-traced editing by an average of 5&nbsp;dB PSNR, while reducing editing latency by up to three orders of magnitude. Qualitative results further demonstrate realistic, interactive relighting of real-world captures.</p>
+        <p>Relighting reconstructed 3D scenes remains challenging due to the complex nature of light transport: slow or approximate visual feedback restricts the editor's ability to fine-tune the results to satisfaction. <strong>We present a hybrid relighting approach that enables interactive, high-fidelity updates of direct and indirect indoor illumination without per-edit optimization.</strong> Our approach permits the editor to make a wide range of relighting edits at room-scale, with near-instant feedback. Our key insight is to precompute geometric light exchange rather than illumination responses, retaining an inexpensive transport solve that accommodates changes in emission and surface reflectance. We evaluate direct illumination on reconstructed 2D Gaussians using visibility-aware sampling of one-sided emitters, while propagating diffuse interreflection through sparse radiosity on a triangle proxy. A sparse projection fitted through Gaussian alpha compositing transfers the proxy solution to the reconstruction. Our formulation further supports fast fixture transformations and emitter insertion by recomputing light source injection. <strong>Across eight relighting conditions of our synthetic test suite, our sub-second edits improve relighting fidelity over prior path-traced editing by an average of 5&nbsp;dB PSNR, while reducing editing latency by up to three orders of magnitude.</strong> Qualitative results further demonstrate realistic, interactive relighting of real-world captures.</p>
       </div>
     </div>
   </div>
@@ -192,9 +191,8 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 
 <section class="section" id="demo">
   <div class="container is-max-desktop has-text-centered">
-    <h2 class="title is-3">Try it yourself!</h2>
-    <h3 class="title is-4 demo-head">Living room: recolour surfaces, move the pendant</h3>
-    <p class="demo-intro">Click the <strong>rug</strong> or the <strong>wall</strong> to change its albedo, and click the <strong>pendant lamp</strong> to move it. Click again to undo. Watch how the light reflected around the room changes.</p>
+    <h2 class="title is-3">What changes when you turn the rug blue?</h2>
+    <p class="demo-intro">Click the <strong>rug</strong> to turn it blue and watch the ceiling pick up its color. Click the <strong>wall</strong> to turn it red or the <strong>pendant lamp</strong> to move it. Click again to undo. Watch how the light reflected around the room changes.</p>
     <div class="demo" id="demo-stage">
       <img class="on" data-state="000" src="media/demo-000.jpg" width="1080" height="720" alt="Living room under the new lamps: rug, wall and pendant as captured">
       <img data-state="100" src="media/demo-100.jpg" width="1080" height="720" alt="Rug recoloured blue">
@@ -226,7 +224,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 
 <section class="section hero is-light" id="results">
   <div class="container is-max-desktop has-text-centered">
-    <h2 class="title is-3">More Results</h2>
+    <h2 class="title is-3">Relighting other rooms</h2>
     <div class="result" id="kitchen">
       <div class="clip">
         <video autoplay muted loop playsinline preload="auto" poster="media/kitchen.jpg" aria-label="Kitchen: three relighting conditions, red wall, moved pendant, then the edits undone">
@@ -235,7 +233,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         </video>
         <span class="paused-tag">Paused</span>
       </div>
-      <h3 class="subtitle is-6"><strong>Kitchen</strong> (synthetic). Three relighting conditions, then the back wall turns red and the pendant moves. After a turn towards the counters, the edits are undone one by one and the room returns to its capture lighting.</h3>
+      <h3 class="subtitle is-6"><strong>Kitchen</strong> (synthetic). The same kitchen under three lighting conditions. Watch how the light shifts across the counters as the back wall turns red and the pendant moves.</h3>
     </div>
     <div class="result">
       <h3 class="title is-4">Real Captures</h3>
@@ -273,8 +271,8 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
       <div class="content has-text-justified">
         <p><span class="dnerf">L<span>ive</span>R<span>elight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change the light transport on top of it.</p>
         <ol>
-          <li><strong>Once per scene.</strong> Extract a triangle proxy mesh, precompute its form factors, and fit a sparse projection from the mesh onto the Gaussians.</li>
-          <li><strong>With each edit.</strong> Evaluate direct light and shadows on the Gaussians by sampling one-sided emitters with next-event estimation and tracing shadow rays through the Gaussian scene. A fast radiosity solve on the mesh updates multi-bounce diffuse illumination, which is projected back onto the Gaussians. When a fixture is moved or inserted, fast emitter re-injection recomputes where its light first lands and then feeds that into the sparse interreflection solve for instant global illumination updates.</li>
+          <li><strong>Once per scene.</strong> We extract a triangle mesh from the Gaussian reconstruction and precompute how much light each triangle can send to the others. We then fit a sparse projection that transfers lighting from the mesh back to the Gaussians through alpha compositing.</li>
+          <li><strong>With each edit.</strong> We sample one-sided emitters and trace shadows on the Gaussians for direct lighting. A radiosity solve on the mesh updates diffuse interreflection, which we project back onto the Gaussians. When a fixture moves or a new light is added, we recompute where its light first lands and reuse the room&rsquo;s precomputed geometry for subsequent bounces.</li>
         </ol>
       </div>
     </div>
