@@ -37,14 +37,13 @@ a { color: #3273dc; text-decoration: none; }
 .title { margin: 0 0 1.5rem; color: #363636; font-size: 2rem; font-weight: 600; line-height: 1.125; word-break: break-word; }
 .title.is-1 { font-size: 3rem; }
 .publication-title { font-weight: 400; }
-.publication-title .wordmark { display: block; font-family: "Inter", "Lato", sans-serif; font-weight: 750; letter-spacing: -0.027em; }
-.publication-title .wordmark-relight { background-image: linear-gradient(90deg, #A32A9A 0%, #F14A50 55%, #FFA721 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.wordmark { font-family: "Inter", "Lato", sans-serif; font-weight: 750; letter-spacing: -0.027em; color: #363636; }
+.wordmark-relight { background-image: linear-gradient(90deg, #A32A9A 0%, #F14A50 55%, #FFA721 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.publication-title .wordmark { display: block; }
 .title.is-3 { font-size: 2rem; }
 .title.is-4 { font-size: 1.5rem; margin-bottom: 1rem; }
 .subtitle { margin: 0; color: #4a4a4a; font-size: 1.25rem; font-weight: 400; line-height: 1.4; }
 .subtitle.is-6 { font-size: 1rem; line-height: 1.5; }
-.dnerf { font-weight: 400; color: inherit; }
-.dnerf > span { text-transform: uppercase; font-size: 0.78em; font-weight: 600; }
 .content p { margin: 0 0 1em; }
 .content p:last-child { margin-bottom: 0; }
 .content ol { margin: 0 0 1em; padding-left: 1.6em; }
@@ -174,7 +173,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         <span class="paused-tag">Paused</span>
       </div>
       <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
-      <p class="subtitle"><span class="dnerf">L<span>ive</span>R<span>elight</span></span> lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.</p>
+      <p class="subtitle"><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.</p>
     </div>
   </div>
 </section>
@@ -270,7 +269,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
     <div class="column-narrow">
       <h2 class="title is-3 has-text-centered">How it works</h2>
       <div class="content has-text-justified">
-        <p><span class="dnerf">L<span>ive</span>R<span>elight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change the light transport on top of it.</p>
+        <p><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change the light transport on top of it.</p>
         <ol>
           <li><strong>Once per scene.</strong> We extract a triangle mesh from the Gaussian reconstruction and precompute how much light each triangle can send to the others. We then fit a sparse projection that transfers lighting from the mesh back to the Gaussians through alpha compositing.</li>
           <li><strong>With each edit.</strong> We sample one-sided emitters and trace shadows on the Gaussians for direct lighting. A radiosity solve on the mesh updates diffuse interreflection, which we project back onto the Gaussians. When a fixture moves or a new light is added, we recompute where its light first lands and reuse the room&rsquo;s precomputed geometry for subsequent bounces.</li>
@@ -290,7 +289,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 </section>
 
 <footer class="footer has-text-centered">
-  <p>All images and videos on this page are novel views rendered by <span class="dnerf">L<span>ive</span>R<span>elight</span></span> on top of existing 2D Gaussian reconstructions. For interactive editing, check out our code and web app.</p>
+  <p>All images and videos on this page are novel views rendered by <span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> on top of existing 2D Gaussian reconstructions. For interactive editing, check out our code and web app.</p>
 </footer>
 
 <script>
