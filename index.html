@@ -39,7 +39,8 @@ a { color: #3273dc; text-decoration: none; }
 .publication-title { font-weight: 400; }
 .wordmark { font-family: "Inter", "Lato", sans-serif; font-weight: 750; letter-spacing: -0.027em; color: #363636; }
 .wordmark-relight { background-image: linear-gradient(90deg, #A32A9A 0%, #F14A50 55%, #FFA721 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.publication-title .wordmark { display: block; }
+.publication-title .wordmark { display: block; font-size: 1.1em; }
+.publication-title .title-rest { display: block; font-size: 0.85em; text-wrap: balance; }
 .title.is-3 { font-size: 2rem; }
 .title.is-4 { font-size: 1.5rem; margin-bottom: 1rem; }
 .subtitle { margin: 0; color: #4a4a4a; font-size: 1.25rem; font-weight: 400; line-height: 1.4; }
@@ -62,8 +63,8 @@ a { color: #3273dc; text-decoration: none; }
 .button svg { width: 1.05em; height: 1.05em; fill: currentColor; flex: none; }
 
 .teaser .hero-body { padding-top: 0; padding-bottom: 3rem; }
-.teaser .clip { width: min(100%, max(36rem, calc((100vh - 22.5rem) * 1.5))); margin: 0 auto 1.25rem; }
-@supports (height: 100svh) { .teaser .clip { width: min(100%, max(36rem, calc((100svh - 22.5rem) * 1.5))); } }
+.teaser .clip { width: min(100%, max(36rem, calc((100vh - 21.75rem) * 1.5))); margin: 0 auto 1.25rem; }
+@supports (height: 100svh) { .teaser .clip { width: min(100%, max(36rem, calc((100svh - 21.75rem) * 1.5))); } }
 .teaser .tagline { margin-bottom: 0.6rem; color: #363636; font-size: 1.5rem; font-weight: 600; }
 
 .clip { position: relative; aspect-ratio: 3 / 2; background: #000; }
@@ -150,7 +151,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop has-text-centered">
-      <h1 class="title is-1 publication-title"><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> Sub-Second Global Illumination Editing for Gaussian Interiors</h1>
+      <h1 class="title is-1 publication-title"><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> <span class="title-rest">Sub-Second Global Illumination Editing for Gaussian Interiors</span></h1>
       <div class="publication-links">
         <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h9.5L20 7.5V22H5zm9 1.6V8h4.4zM7.5 12.5h9v5h-9z"/></svg><span>Paper</span><span class="sr-only"> (link coming soon)</span></a>
         <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg><span>Code</span><span class="sr-only"> (link coming soon)</span></a>
