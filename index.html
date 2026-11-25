@@ -64,8 +64,12 @@ a { color: #3273dc; text-decoration: none; }
 
 .hero:not(.teaser) > .hero-body { padding-bottom: 2rem; }
 .teaser .hero-body { padding-top: 0; padding-bottom: 3rem; }
-.teaser .clip { width: min(100%, max(36rem, calc((100vh - 23.375rem) * 1.5))); margin: 0 auto 1.25rem; }
-@supports (height: 100svh) { .teaser .clip { width: min(100%, max(36rem, calc((100svh - 23.375rem) * 1.5))); } }
+.teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100vh - 23.375rem) * 1.5))); margin: 0 auto 1.25rem; }
+@supports (height: 100svh) { .teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100svh - 23.375rem) * 1.5))); } }
+.editor .hero-body { padding-top: 0; }
+.editor .clip { aspect-ratio: 1164 / 720; margin-bottom: 0.9rem; }
+.editor .subtitle { max-width: 46rem; margin: 0 auto; }
+.content ol:last-child { margin-bottom: 0; }
 .teaser .tagline { margin-bottom: 0.75rem; color: #363636; font-size: 1.5rem; font-weight: 600; line-height: 1.25; text-wrap: balance; }
 
 .clip { position: relative; aspect-ratio: 3 / 2; background: #000; }
@@ -132,7 +136,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
   .title.is-3 { font-size: 1.75rem; }
   .hero-body, .section { padding: 2rem 1rem; }
   .teaser .hero-body { padding-bottom: 2rem; }
-  .teaser .clip { width: 100%; }
+  .teaser .clip, .editor .clip { width: 100%; }
   .columns { flex-direction: column; align-items: center; }
   .columns > .col { width: 100%; }
 }
@@ -271,12 +275,26 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
     <div class="column-narrow">
       <h2 class="title is-3 has-text-centered">How it works</h2>
       <div class="content has-text-justified">
-        <p><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> starts from a reconstruction of a room captured under a single lighting condition. We use a Gaussian-based scene representation with consistent one-sided emission for reconstructed light sources, and change the light transport on top of it.</p>
         <ol>
-          <li><strong>Once per scene.</strong> We extract a triangle mesh from the Gaussian reconstruction and precompute how much light each triangle can send to the others. We then fit a sparse projection that transfers lighting from the mesh back to the Gaussians through alpha compositing.</li>
-          <li><strong>With each edit.</strong> We sample one-sided emitters and trace shadows on the Gaussians for direct lighting. A radiosity solve on the mesh updates diffuse interreflection, which we project back onto the Gaussians. When a fixture moves or a new light is added, we recompute where its light first lands and reuse the room&rsquo;s precomputed geometry for subsequent bounces.</li>
+          <li><strong>Once per scene.</strong> We extract a triangle mesh from the Gaussian reconstruction and precompute how its surfaces exchange light. We also fit a sparse projection that transfers indirect lighting from the mesh back to the Gaussians.</li>
+          <li><strong>With each edit.</strong> We compute direct lighting by sampling one-sided Gaussian emitters and tracing shadows through the reconstruction. A radiosity solve updates the diffuse light bouncing through the scene using the edited light sources and surface colors. When a fixture moves or a new light is added, we recompute where its light first lands and reuse the scene&rsquo;s precomputed geometric exchange for subsequent bounces.</li>
         </ol>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero editor" id="editor">
+  <div class="container is-max-desktop">
+    <div class="hero-body has-text-centered">
+      <div class="clip">
+        <video autoplay muted loop playsinline preload="auto" poster="media/editor.jpg" width="1164" height="720" disablepictureinpicture disableremoteplayback aria-label="Screen recording of the interactive editor: lights in a kitchen are selected, moved, scaled, recolored and switched on, and the room relights">
+          <source src="media/editor.webm" type="video/webm">
+          <source src="media/editor.mp4" type="video/mp4">
+        </video>
+        <span class="paused-tag">Paused</span>
+      </div>
+      <p class="subtitle is-6"><strong>Our interactive editor:</strong> pick any light, drag it, scale it, or change its color and brightness, and the room relights when you let go.</p>
     </div>
   </div>
 </section>
@@ -313,6 +331,22 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
       if (p && p.catch) { p.catch(function () {}); }
     }
   });
+
+  var ed = document.querySelector("#editor video");
+  if (ed) {
+    ed.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    if ("IntersectionObserver" in window) {
+      var eo = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
+          if (en.isIntersecting && en.intersectionRatio >= 0.5) {
+            eo.disconnect();
+            if (!ed.paused) { ed.currentTime = 0; }
+          }
+        });
+      }, { threshold: [0, 0.5] });
+      eo.observe(ed);
+    }
+  }
 
   var stage = document.getElementById("demo-stage");
   if (!stage) { return; }
