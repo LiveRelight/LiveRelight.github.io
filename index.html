@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors</title>
-<meta name="description" content="Relight a reconstructed room in under a second. LiveRelight lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.">
+<meta name="description" content="Relight a reconstructed room in under a second. Switch on a lamp that was off during capture, move a pendant, or turn a rug blue and watch its color reach the ceiling. Starting from multi-view images taken under a single lighting condition, LiveRelight updates direct lighting and diffuse interreflection after each edit, without per-edit optimization.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors">
-<meta property="og:description" content="Relight a reconstructed room in under a second. LiveRelight lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.">
+<meta property="og:description" content="Relight a reconstructed room in under a second. Switch on a lamp that was off during capture, move a pendant, or turn a rug blue and watch its color reach the ceiling. Starting from multi-view images taken under a single lighting condition, LiveRelight updates direct lighting and diffuse interreflection after each edit, without per-edit optimization.">
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="256x256" href="assets/favicon-v2.png">
@@ -62,10 +62,11 @@ a { color: #3273dc; text-decoration: none; }
 .button.is-soon:hover { background: #363636; }
 .button svg { width: 1.05em; height: 1.05em; fill: currentColor; flex: none; }
 
+.hero:not(.teaser) > .hero-body { padding-bottom: 2rem; }
 .teaser .hero-body { padding-top: 0; padding-bottom: 3rem; }
-.teaser .clip { width: min(100%, max(36rem, calc((100vh - 21.75rem) * 1.5))); margin: 0 auto 1.25rem; }
-@supports (height: 100svh) { .teaser .clip { width: min(100%, max(36rem, calc((100svh - 21.75rem) * 1.5))); } }
-.teaser .tagline { margin-bottom: 0.6rem; color: #363636; font-size: 1.5rem; font-weight: 600; }
+.teaser .clip { width: min(100%, max(36rem, calc((100vh - 23.375rem) * 1.5))); margin: 0 auto 1.25rem; }
+@supports (height: 100svh) { .teaser .clip { width: min(100%, max(36rem, calc((100svh - 23.375rem) * 1.5))); } }
+.teaser .tagline { margin-bottom: 0.75rem; color: #363636; font-size: 1.5rem; font-weight: 600; line-height: 1.25; text-wrap: balance; }
 
 .clip { position: relative; aspect-ratio: 3 / 2; background: #000; }
 .clip video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
@@ -166,6 +167,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 <section class="hero teaser" id="teaser">
   <div class="container is-max-desktop">
     <div class="hero-body has-text-centered">
+      <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
       <div class="clip">
         <video autoplay muted loop playsinline preload="auto" poster="media/living-room.jpg" aria-label="Living room: lamps switch on, the rug turns blue, the wall turns red, the pendant moves">
           <source src="media/living-room.webm" type="video/webm">
@@ -173,8 +175,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         </video>
         <span class="paused-tag">Paused</span>
       </div>
-      <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
-      <p class="subtitle"><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> lets you change the lighting in a room reconstructed from multi-view images taken under a single lighting condition. Switch on a lamp that was off during capture, adjust its color or intensity, recolor a surface, or move a light fixture. Each edit updates the shadows and the light bouncing between surfaces, without per-edit optimization.</p>
+      <p class="subtitle">Switch on a lamp that was off during capture, move a pendant, or turn a rug blue and watch its color reach the ceiling. Starting from multi-view images taken under a single lighting condition, <span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> updates direct lighting and diffuse interreflection after each edit, without per-edit optimization.</p>
     </div>
   </div>
 </section>
@@ -192,8 +193,8 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 
 <section class="section" id="demo">
   <div class="container is-max-desktop has-text-centered">
-    <h2 class="title is-3">Where would you hang the pendant?</h2>
-    <p class="demo-intro">Click the <strong>pendant</strong> to move it beside the bookshelf. Then try a blue <strong>rug</strong> or a red <strong>wall</strong>. Watch the ceiling pick up blue from the rug or a hint of red from the wall. Click again to undo.</p>
+    <h2 class="title is-3">What changes when the rug turns blue?</h2>
+    <p class="demo-intro">Toggle the <strong>rug</strong> and watch the ceiling pick up a blue tint. Then move the <strong>pendant</strong> beside the bookshelf to see how the light shifts, or turn the <strong>wall</strong> red to combine edits. Click again to undo.</p>
     <div class="demo" id="demo-stage">
       <img class="on" data-state="000" src="media/demo-000.jpg" width="1080" height="720" alt="Living room under the new lamps: rug, wall and pendant as captured">
       <img data-state="100" src="media/demo-100.jpg" width="1080" height="720" alt="Rug recoloured blue">
@@ -216,7 +217,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
       <button type="button" class="thumb-btn" data-target="rug" aria-pressed="false"><span class="swatch" style="background:#2f4fd0"></span>Rug &rarr; blue</button>
       <button type="button" class="thumb-btn" data-target="wall" aria-pressed="false"><span class="swatch" style="background:#d1271f"></span>Wall &rarr; red</button>
       <button type="button" class="thumb-btn" data-target="pendant" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.2 1h1.6v6h-1.6z" fill="currentColor"/><path d="M4 15a8 7 0 0 1 16 0z" fill="currentColor"/><ellipse cx="12" cy="16.4" rx="6" ry="1.6" fill="#fcd47c"/></svg>Move pendant</button>
-      <button type="button" class="thumb-btn" data-target="reset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 1 1-7.6 5.5l2 .7A5.9 5.9 0 1 0 12 6.1V9L7.5 5 12 1z" fill="currentColor"/></svg>Original</button>
+      <button type="button" class="thumb-btn" data-target="reset"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 1 1-7.6 5.5l2 .7A5.9 5.9 0 1 0 12 6.1V9L7.5 5 12 1z" fill="currentColor"/></svg>Reset</button>
     </div>
     <p class="demo-caption" id="lr-caption" aria-live="polite">Under the new lamps. Click the rug, the wall or the pendant lamp.</p>
     <noscript><p class="noscript">The interactive demo and click-to-pause need JavaScript. Open this page in a web browser (an editor or notebook preview may block scripts).</p></noscript>
