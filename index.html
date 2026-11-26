@@ -69,8 +69,8 @@ a { color: #3273dc; text-decoration: none; }
 
 .hero:not(.teaser) > .hero-body { padding-bottom: 2rem; }
 .teaser .hero-body { padding-top: 0; padding-bottom: 3rem; }
-.teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100vh - 27.625rem) * 1.5))); margin: 0 auto 1.25rem; }
-@supports (height: 100svh) { .teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100svh - 27.625rem) * 1.5))); } }
+.teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100vh - 23.375rem) * 1.5))); margin: 0 auto 1.25rem; }
+@supports (height: 100svh) { .teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100svh - 23.375rem) * 1.5))); } }
 .editor .hero-body { padding-top: 0; }
 .editor .clip { aspect-ratio: 1164 / 720; margin-bottom: 0.9rem; }
 .editor .subtitle { max-width: 46rem; margin: 0 auto; }
@@ -182,7 +182,6 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 <section class="hero teaser" id="teaser">
   <div class="container is-max-desktop">
     <div class="hero-body has-text-centered">
-      <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
       <div class="clip">
         <video autoplay muted loop playsinline preload="auto" poster="media/living-room.jpg" aria-label="Living room: lamps switch on, the rug turns blue, the wall turns red, the pendant moves">
           <source src="media/living-room.webm" type="video/webm">
@@ -190,6 +189,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
         </video>
         <span class="paused-tag">Paused</span>
       </div>
+      <h2 class="subtitle tagline">Relight a reconstructed room in under a second.</h2>
       <p class="subtitle">Switch on a lamp that was off during capture, move a pendant, or turn a rug blue and watch its color reach the ceiling. Starting from multi-view images taken under a single lighting condition, <span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> updates direct lighting and diffuse interreflection after each edit, without per-edit optimization.</p>
     </div>
   </div>
