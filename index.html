@@ -50,6 +50,11 @@ a { color: #3273dc; text-decoration: none; }
 .content ol { margin: 0 0 1em; padding-left: 1.6em; }
 .content li { margin: 0.45em 0; }
 
+.byline { margin: -0.5rem 0 1rem; font-size: 1.25rem; line-height: 1.5; }
+.byline p { margin: 0; }
+.byline .nb { display: inline-block; }
+.byline a:hover { text-decoration: underline; }
+.byline sup { margin-left: 0.05em; font-size: 0.7em; line-height: 0; vertical-align: 0.55em; }
 .publication-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 0.25rem; }
 .button {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
@@ -64,8 +69,8 @@ a { color: #3273dc; text-decoration: none; }
 
 .hero:not(.teaser) > .hero-body { padding-bottom: 2rem; }
 .teaser .hero-body { padding-top: 0; padding-bottom: 3rem; }
-.teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100vh - 23.375rem) * 1.5))); margin: 0 auto 1.25rem; }
-@supports (height: 100svh) { .teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100svh - 23.375rem) * 1.5))); } }
+.teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100vh - 27.625rem) * 1.5))); margin: 0 auto 1.25rem; }
+@supports (height: 100svh) { .teaser .clip, .editor .clip { width: min(100%, max(36rem, calc((100svh - 27.625rem) * 1.5))); } }
 .editor .hero-body { padding-top: 0; }
 .editor .clip { aspect-ratio: 1164 / 720; margin-bottom: 0.9rem; }
 .editor .subtitle { max-width: 46rem; margin: 0 auto; }
@@ -143,6 +148,7 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
 @media (max-width: 420px) {
   .title.is-1 { font-size: 1.9rem; }
   .subtitle { font-size: 1.1rem; }
+  .byline { font-size: 1.1rem; }
   .teaser .tagline { font-size: 1.25rem; }
   .button { font-size: 0.9rem; }
 }
@@ -157,9 +163,14 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
   <div class="hero-body">
     <div class="container is-max-desktop has-text-centered">
       <h1 class="title is-1 publication-title"><span class="wordmark">Live<span class="wordmark-relight">Relight</span></span> <span class="title-rest">Sub-Second Global Illumination Editing for Gaussian Interiors</span></h1>
+      <div class="byline">
+        <p class="people"><span class="nb"><a href="https://noahzegna.github.io/">Noah Rothenberger</a><sup>1</sup>,</span> <span class="nb"><a href="https://dorverbin.github.io/">Dor Verbin</a><sup>2</sup>,</span> <span class="nb"><a href="https://serge.belongie.com/">Serge Belongie</a><sup>1</sup>,</span> <span class="nb"><a href="https://snosixtyboo.github.io/">Bernhard Kerbl</a><sup>1</sup></span></p>
+        <p class="orgs"><span class="nb"><sup>1</sup>University of Copenhagen,</span> <span class="nb"><sup>2</sup>Google DeepMind</span></p>
+      </div>
       <div class="publication-links">
-        <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h9.5L20 7.5V22H5zm9 1.6V8h4.4zM7.5 12.5h9v5h-9z"/></svg><span>Paper</span><span class="sr-only"> (link coming soon)</span></a>
+        <a class="button" href="https://arxiv.org/abs/2611.34226"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h9.5L20 7.5V22H5zm9 1.6V8h4.4zM7.5 12.5h9v5h-9z"/></svg><span>Paper</span></a>
         <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg><span>Code</span><span class="sr-only"> (link coming soon)</span></a>
+        <a class="button is-soon" aria-disabled="true" title="Link coming soon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0-16 0zm0 2v4a8 3 0 0 0 16 0V8a8 3 0 0 1-16 0zm0 6v4a8 3 0 0 0 16 0v-4a8 3 0 0 1-16 0z"/></svg><span>Data</span><span class="sr-only"> (link coming soon)</span></a>
         <a class="button" href="#abstract"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M6 2h8.5L20 7.5V22H6zm8 1.6V8h4.4zM8.5 11h9v1.6h-9zm0 3.5h9v1.6h-9zm0 3.5h6v1.6h-6z"/></svg><span>Abstract</span></a>
         <a class="button" href="#method"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v3.2H3zm0 6.4h18v3.2H3zm0 6.4h18V20H3z"/></svg><span>How it works</span></a>
         <a class="button" href="#citation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg><span>BibTeX</span></a>
@@ -303,7 +314,15 @@ html:not(.js) .regions, html:not(.js) .demo-buttons, html:not(.js) .state-chip, 
   <div class="container is-max-desktop">
     <div class="column-narrow">
       <h2 class="title is-3 has-text-centered">Citation</h2>
-      <pre class="bibtex"><code>BibTeX coming soon.</code></pre>
+      <pre class="bibtex"><code>@misc{rothenberger2026liverelightsubsecondglobalillumination,
+      title={LiveRelight: Sub-Second Global Illumination Editing for Gaussian Interiors},
+      author={Noah Rothenberger and Dor Verbin and Serge Belongie and Bernhard Kerbl},
+      year={2026},
+      eprint={2611.34226},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2611.34226},
+}</code></pre>
     </div>
   </div>
 </section>
